@@ -1,0 +1,23 @@
+# Core data science libraries
+pandas>=1.5.0
+numpy>=1.21.0
+geopandas>=0.12.0
+scikit-learn>=1.1.0
+
+# Document generation
+python-docx>=0.8.11
+
+# Jupyter notebook support (for development)
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Testing
+unittest2>=1.1.0
+
+# Optional: For enhanced data visualization (if needed later)
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# File handling and utilities
+pathlib2>=2.3.0
+openpyxl>=3.0.0  # For Excel file reading

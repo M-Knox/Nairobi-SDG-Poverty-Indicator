@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  nairobi-sdg-app:
+    build: .
+    container_name: nairobi-sdg-indicators
+    ports:
+      - "8888:8888"
+    volumes:
+      # Mount data directory for persistence
+      - ./data:/app/data
+      # Mount outputs directory for persistence
+      - ./outputs:/app/outputs
+      # Mount notebooks for development
+      - ./notebooks:/app/notebooks
+      # Mount source code for development (optional)
+      - ./src:/app/src
+    environment:
+      - PYTHONPATH=/app
+      - JUPYTER_ENABLE_LAB=yes
+    restart: unless-stopped
+    networks:
+      - sdg-network
+
+  # Optional: Add a simple web server for serving reports
+  nginx:
+    image: nginx:alpine
+    container_name: nairobi-sdg-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./outputs/reports:/usr/share/nginx/html/reports:ro
+      - ./outputs/figures:/usr/share/nginx/html/figures:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - nairobi-sdg-app
+    networks:
+      - sdg-network
+    profiles:
+      - web-server
+
+networks:
+  sdg-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+  outputs-volume:
